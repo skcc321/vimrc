@@ -24,6 +24,9 @@ let &showbreak='↪ '
 " remap colon
 map ; :
 
+" remap esc
+imap jj <Esc>
+
 " leader
 let mapleader=","
 
