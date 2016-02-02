@@ -1,6 +1,17 @@
 "------------------- Vim settings -----------------------
-au BufWinLeave *.* mkview           " autosave view
-au BufWinEnter *.* silent loadview  " autoload view
+" autosave view
+set viewoptions-=options
+augroup vimrc
+    autocmd BufWritePost *
+    \   if expand('%') != '' && &buftype !~ 'nofile'
+    \|      mkview
+    \|  endif
+    autocmd BufRead *
+    \   if expand('%') != '' && &buftype !~ 'nofile'
+    \|      silent loadview
+    \|  endif
+augroup END
+
 au BufWritePre * :%s/\s\+$//e       " trailing whitespaces
 
 set shell=/bin/bash
@@ -169,14 +180,6 @@ let g:syntastic_slim_checkers = ['slimrb']
 let g:syntastic_spec_checkers = ['rpmlint']
 let g:syntastic_yaml_checkers = ['jsyaml', 'yamlxs']
 
-" camel case
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-sunmap w
-sunmap b
-sunmap e
-
 " NERDTress File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg)
  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
@@ -217,9 +220,6 @@ autocmd FileType ruby let b:switch_custom_definitions =
 " tagbar
 nmap <C-t> :TagbarToggle<CR>
 
-" rubocop
-" let g:vimrubocop_config = '~/.vim/vimrc/rubocop.yml'
-
 " rspec
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
@@ -227,6 +227,6 @@ map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
 " youcompleteme
-" let g:EclimCompletionMethod = 'omnifunc'
+let g:EclimCompletionMethod = 'omnifunc'
 
 "---------------------- End -----------------------------
