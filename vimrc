@@ -52,8 +52,8 @@ call vundle#begin()
   Plugin 'bkad/CamelCaseMotion'
   Plugin 'Lokaltog/vim-easymotion'
   Plugin 'scrooloose/nerdtree'
-  Plugin 'mileszs/ack.vim'
   Plugin 'ctrlpvim/ctrlp.vim'
+  Plugin 'mileszs/ack.vim'
   Plugin 'majutsushi/tagbar'
 
   " Correction
@@ -206,9 +206,6 @@ sunmap w
 sunmap b
 sunmap e
 
-" ctrl p
-let g:ctrlp_custom_ignore = '\v[\/]\.(log)$'
-
 " switch
 autocmd FileType ruby let b:switch_custom_definitions =
     \ [
@@ -225,6 +222,10 @@ map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
+
+" ctrl P
+map <Leader>h :CtrlP<CR>
+set wildignore+=*/tmp/*,*.so,*.swp,*.log,*/vendor/*,*/public/*,*/coverage/*,*tags,*/bin/*
 
 " youcompleteme
 let g:EclimCompletionMethod = 'omnifunc'
