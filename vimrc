@@ -53,7 +53,7 @@ call vundle#begin()
   Plugin 'Lokaltog/vim-easymotion'
   Plugin 'scrooloose/nerdtree'
   Plugin 'ctrlpvim/ctrlp.vim'
-  Plugin 'mileszs/ack.vim'
+  Plugin 'rking/ag.vim'
   Plugin 'majutsushi/tagbar'
 
   " Correction
@@ -224,8 +224,20 @@ map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
 " ctrl P
-map <Leader>h :CtrlP<CR>
+map <Leader>c :CtrlP<CR>
 set wildignore+=*/tmp/*,*.so,*.swp,*.log,*/vendor/*,*/public/*,*/coverage/*,*tags,*/bin/*
+
+" AG
+map <Leader>g :Ag<SPACE>
+let g:ag_prg='ag -S --nocolor --nogroup --column
+\ --ignore "./public/**"
+\ --ignore "./vendor/**"
+\ --ignore "./tmp/**"
+\ --ignore "./coverage/**"
+\ --ignore "*.log"
+\ --ignore "./db/migrate/**"
+\ --ignore "./db/schema.rb"
+\ --ignore "*tags"'
 
 " youcompleteme
 let g:EclimCompletionMethod = 'omnifunc'
