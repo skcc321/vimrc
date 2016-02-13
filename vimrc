@@ -35,6 +35,11 @@ let &showbreak='↪ '
 " remap colon
 map ; :
 
+" jump to end of text you pasted
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+
 " remap esc
 imap jj <Esc>
 
@@ -42,67 +47,61 @@ imap jj <Esc>
 let mapleader=","
 
 "---------------- Plugins -------------------
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-  Plugin 'L9'
-  Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-  Plugin 'gmarik/Vundle.vim'
+call plug#begin('~/.vim/plugged')
+  Plug 'L9'
+  Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
+  Plug 'gmarik/Vundle.vim'
 
   " Navigation
-  Plugin 'bkad/CamelCaseMotion'
-  Plugin 'Lokaltog/vim-easymotion'
-  Plugin 'scrooloose/nerdtree'
-  Plugin 'ctrlpvim/ctrlp.vim'
-  Plugin 'rking/ag.vim'
-  Plugin 'majutsushi/tagbar'
+  Plug 'bkad/CamelCaseMotion'
+  Plug 'Lokaltog/vim-easymotion'
+  Plug 'scrooloose/nerdtree'
+  Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'rking/ag.vim'
+  Plug 'majutsushi/tagbar'
 
   " Correction
-  Plugin 'scrooloose/syntastic'
-  Plugin 'Valloric/YouCompleteMe'
-  Plugin 'junegunn/vim-easy-align'
-  Plugin 'ntpeters/vim-better-whitespace'
-  Plugin 'Raimondi/delimitMate'
+  Plug 'scrooloose/syntastic'
+  Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+  Plug 'junegunn/vim-easy-align'
+  Plug 'ntpeters/vim-better-whitespace'
+  Plug 'Raimondi/delimitMate'
 
   " Appearance
-  Plugin 'tomasr/molokai'
-  Plugin 'airblade/vim-gitgutter'
-  Plugin 'kshenoy/vim-signature'
-  Plugin 'Bling/vim-airline'
-  Plugin 'gorodinskiy/vim-coloresque'
-  Plugin 'tpope/vim-fugitive'
+  Plug 'tomasr/molokai'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'kshenoy/vim-signature'
+  Plug 'Bling/vim-airline'
+  Plug 'gorodinskiy/vim-coloresque'
+  Plug 'tpope/vim-fugitive'
 
   " Objects
-  Plugin 'kana/vim-textobj-user'
-  Plugin 'glts/vim-textobj-comment'
+  Plug 'kana/vim-textobj-user'
+  Plug 'glts/vim-textobj-comment'
 
   " General editing
-  Plugin 'tpope/vim-surround'
-  Plugin 'tomtom/tcomment_vim'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-repeat'
+  Plug 'tomtom/tcomment_vim'
 
   " Ruby/Rails
-  Plugin 'tpope/vim-endwise'
-  Plugin 'tpope/vim-rails'
-  Plugin 'vim-ruby/vim-ruby'
-  Plugin 'AndrewRadev/switch.vim'
-  Plugin 'thoughtbot/vim-rspec'
-
-  " Window Management
-  Plugin 'ZoomWin'
+  Plug 'tpope/vim-endwise'
+  Plug 'tpope/vim-rails'
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'AndrewRadev/switch.vim'
+  Plug 'thoughtbot/vim-rspec'
 
   " Languages
-  Bundle 'slim-template/vim-slim.git'
-  Plugin 'kchmck/vim-coffee-script'
-  Plugin 'nginx.vim'
-  Plugin 'zaiste/tmux.vim'
-  Plugin 'elzr/vim-json'
-  Plugin 'TAKAyukiatkwsk/vim-mongoid-syntax'
-  Plugin 'pangloss/vim-javascript'
-  Plugin 'plasticboy/vim-markdown'
-  Plugin 'aliva/vim-fish'
-call vundle#end()
-syntax enable
-filetype plugin indent on
-
+  Plug 'slim-template/vim-slim'
+  Plug 'kchmck/vim-coffee-script'
+  Plug 'nginx.vim'
+  Plug 'zaiste/tmux.vim'
+  Plug 'elzr/vim-json'
+  Plug 'TAKAyukiatkwsk/vim-mongoid-syntax'
+  Plug 'pangloss/vim-javascript'
+  Plug 'plasticboy/vim-markdown'
+  Plug 'aliva/vim-fish'
+call plug#end()
 "-------------- Plugins Settings--------------
 
 " easy align
@@ -206,15 +205,6 @@ sunmap w
 sunmap b
 sunmap e
 
-" switch
-autocmd FileType ruby let b:switch_custom_definitions =
-    \ [
-    \   {
-    \     ':\(\k\+\)\s\+=>': '\1:',
-    \     '\<\(\k\+\):':     ':\1 =>',
-    \   },
-    \ ]
-" tagbar
 nmap <C-t> :TagbarToggle<CR>
 
 " rspec
