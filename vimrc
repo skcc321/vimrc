@@ -18,6 +18,7 @@ set shell=/bin/bash
 set clipboard=unnamed,unnamedplus   " use system clipboard
 set tags+=gems.tags                 " ctags
 set nu                              " enable left numbers
+set rnu
 set fillchars=vert:\                " disable vert div chars
 set nocompatible                    " be iMproved, required
 set cursorline                      " highlight the cursor screen line "
@@ -179,24 +180,6 @@ let g:syntastic_slim_checkers = ['slimrb']
 let g:syntastic_spec_checkers = ['rpmlint']
 let g:syntastic_yaml_checkers = ['jsyaml', 'yamlxs']
 
-" NERDTress File highlighting
-function! NERDTreeHighlightFile(extension, fg, bg)
- exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
- exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:bg .' guifg='. a:fg
-endfunction
-
-call NERDTreeHighlightFile('rb', "DarkRed", 'none')
-call NERDTreeHighlightFile('coffee', "DarkMagenta", 'none')
-call NERDTreeHighlightFile('sass', "Cyan", 'none')
-call NERDTreeHighlightFile('slim', "Yellow", 'none')
-call NERDTreeHighlightFile('html', "DarkGray", 'none')
-call NERDTreeHighlightFile('txt', "DarkBlue", 'none')
-call NERDTreeHighlightFile('log', "lightGreen", 'none')
-call NERDTreeHighlightFile('yml', "DarkYellow", 'none')
-call NERDTreeHighlightFile('Gemfile', "DarkGreen", 'none')
-call NERDTreeHighlightFile('Guard', "DarkGreen", 'none')
-call NERDTreeHighlightFile('Capfile', "DarkGreen", 'none')
-
 " camel case
 map <silent> w <Plug>CamelCaseMotion_w
 map <silent> b <Plug>CamelCaseMotion_b
@@ -217,6 +200,9 @@ map <Leader>a :call RunAllSpecs()<CR>
 map <Leader>c :CtrlP<CR>
 set wildignore+=*/tmp/*,*.so,*.swp,*.log,*/vendor/*,*/public/*,*/coverage/*,*tags,*/bin/*
 
+" rails
+map <Leader>h :AV<CR>
+
 " AG
 map <Leader>g :Ag<SPACE>
 let g:ag_prg='ag -S --nocolor --nogroup --column
@@ -224,6 +210,7 @@ let g:ag_prg='ag -S --nocolor --nogroup --column
 \ --ignore "./vendor/**"
 \ --ignore "./tmp/**"
 \ --ignore "./coverage/**"
+\ --ignore "./lib/**"
 \ --ignore "*.log"
 \ --ignore "./db/migrate/**"
 \ --ignore "./db/schema.rb"
