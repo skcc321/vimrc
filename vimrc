@@ -52,6 +52,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'rking/ag.vim'
   Plug 'majutsushi/tagbar'
+  Plug 'matze/vim-move'
 
   " Correction
   Plug 'scrooloose/syntastic'
@@ -140,8 +141,8 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
 
 let g:syntastic_enable_signs=1
 let g:syntastic_error_symbol='☠'
@@ -149,6 +150,7 @@ let g:syntastic_warning_symbol='☣'
 let g:syntastic_style_error_symbol='྾'
 let g:syntastic_style_warning_symbol='♿'
 
+let g:syntastic_enable_ruby_checker = 1
 let g:syntastic_enable_coffee_checker = 1
 let g:syntastic_enable_css_checker = 1
 let g:syntastic_enable_haml_checker = 1
@@ -164,7 +166,7 @@ let g:syntastic_css_checkers = ['csslint', 'phpcs', 'prettycss', 'recess', 'styl
 let g:syntastic_haml_checkers = ['haml', 'haml_lint']
 let g:syntastic_html_checkers = ['jshint', 'tidy', 'validator', 'w3*']
 let g:syntastic_javascript_checkers = ['closurecompiler', 'gjslint', 'standard']
-let g:syntastic_ruby_checkers = ['mri', 'rubocop', 'rubylint', 'reek', 'flog']
+let g:syntastic_ruby_checkers = ['mri', 'reek', 'rubocop']
 let g:syntastic_sass_checkers = ['sass', 'sassc']
 let g:syntastic_scss_checkers = ['sass', 'sassc', 'scss_lint']
 let g:syntastic_sh_checkers = ['bashate', 'checkbashisms', 'sh', 'shellcheck']
@@ -199,16 +201,23 @@ map <Leader>h :AV<CR>
 map <Leader>g :Ag<SPACE>
 let g:ag_prg='ag -S --nocolor --nogroup --column
 \ --ignore "./public/**"
+\ --ignore "./data/**"
 \ --ignore "./vendor/**"
 \ --ignore "./tmp/**"
 \ --ignore "./coverage/**"
 \ --ignore "./lib/**"
 \ --ignore "*.log"
 \ --ignore "./db/migrate/**"
+\ --ignore "./spec_old/**"
 \ --ignore "./db/schema.rb"
 \ --ignore "*tags"'
 
 " youcompleteme
 let g:EclimCompletionMethod = 'omnifunc'
 
+" ctags
+map <Leader>z :CtrlPTag<CR>
+
+" move
+let g:move_key_modifier = 'C'
 "---------------------- End -----------------------------
