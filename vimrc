@@ -14,6 +14,7 @@ set rnu
 set fillchars=vert:\                " disable vert div chars
 set nocompatible                    " be iMproved, required
 set cursorline                      " highlight the cursor screen line "
+set cursorcolumn                      " highlight the cursor screen line "
 set scrolloff=5                     " minimal number of screen lines to keep above and below the cursor "
 set spell spelllang=en_us           " spellchecker
 
