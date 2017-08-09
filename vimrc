@@ -67,6 +67,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'airblade/vim-gitgutter'
   Plug 'kshenoy/vim-signature'
   Plug 'Bling/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
   Plug 'gorodinskiy/vim-coloresque'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
@@ -142,10 +143,11 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_mode_map = { 'mode': 'passive' }
+nnoremap <Leader>e :SyntasticCheck<CR>
 
 let g:syntastic_enable_signs=1
 let g:syntastic_error_symbol='☠'
@@ -169,7 +171,7 @@ let g:syntastic_css_checkers = ['csslint', 'phpcs', 'prettycss', 'recess', 'styl
 let g:syntastic_haml_checkers = ['haml', 'haml_lint']
 let g:syntastic_html_checkers = ['jshint', 'tidy', 'validator', 'w3*']
 let g:syntastic_javascript_checkers = ['closurecompiler', 'gjslint', 'standard']
-let g:syntastic_ruby_checkers = ['mri', 'reek', 'rubocop']
+let g:syntastic_ruby_checkers = ['mri', 'reek', 'rubocop', 'flog']
 let g:syntastic_sass_checkers = ['sass', 'sassc']
 let g:syntastic_scss_checkers = ['sass', 'sassc', 'scss_lint']
 let g:syntastic_sh_checkers = ['bashate', 'checkbashisms', 'sh', 'shellcheck']
