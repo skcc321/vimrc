@@ -199,6 +199,12 @@ map <Leader>a :call RunAllSpecs()<CR>
 map <Leader>c :CtrlP<CR>
 set wildignore+=*/tmp/*,*.so,*.swp,*.log,*/vendor/*,*/public/*,*/coverage/*,*tags,*/bin/*,*.zip,*/temp/*,*/log/*,*/data/*,*/doc/*
 
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching = 0
+endif
+
 " rails
 map <Leader>h :AV<CR>
 
