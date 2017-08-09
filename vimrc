@@ -69,6 +69,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Bling/vim-airline'
   Plug 'gorodinskiy/vim-coloresque'
   Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rhubarb'
 
   " Objects
   Plug 'kana/vim-textobj-user'
@@ -85,6 +86,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'vim-ruby/vim-ruby'
   Plug 'AndrewRadev/switch.vim'
   Plug 'thoughtbot/vim-rspec'
+  Plug 'danchoi/ruby_bashrockets.vim'
 
   " Languages
   Plug 'slim-template/vim-slim'
@@ -193,7 +195,7 @@ map <Leader>a :call RunAllSpecs()<CR>
 
 " ctrl P
 map <Leader>c :CtrlP<CR>
-set wildignore+=*/tmp/*,*.so,*.swp,*.log,*/vendor/*,*/public/*,*/coverage/*,*tags,*/bin/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.log,*/vendor/*,*/public/*,*/coverage/*,*tags,*/bin/*,*.zip,*/temp/*,*/log/*,*/data/*,*/doc/*
 
 " rails
 map <Leader>h :AV<CR>
@@ -201,16 +203,15 @@ map <Leader>h :AV<CR>
 " AG
 map <Leader>g :Ag<SPACE>
 let g:ag_prg='ag -S --nocolor --nogroup --column
-\ --ignore "./public/**"
 \ --ignore "./data/**"
 \ --ignore "./vendor/**"
 \ --ignore "./tmp/**"
 \ --ignore "./coverage/**"
 \ --ignore "./lib/**"
 \ --ignore "*.log"
-\ --ignore "./db/migrate/**"
 \ --ignore "./spec_old/**"
 \ --ignore "./db/schema.rb"
+\ --ignore "./doc/**"
 \ --ignore "*tags"'
 
 " youcompleteme
