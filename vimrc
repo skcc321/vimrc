@@ -106,9 +106,6 @@ call plug#end()
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
 " easymotion
 let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
@@ -139,6 +136,8 @@ hi Normal ctermfg=252 ctermbg=none
 hi Comment cterm=italic
 
 " syntastic
+nnoremap <Leader>e :SyntasticCheck<CR>
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -147,7 +146,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_mode_map = { 'mode': 'passive' }
-nnoremap <Leader>e :SyntasticCheck<CR>
 
 let g:syntastic_enable_signs=1
 let g:syntastic_error_symbol='☠'
@@ -187,13 +185,9 @@ sunmap w
 sunmap b
 sunmap e
 
-nmap <C-t> :TagbarToggle<CR>
-
 " rspec
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
 
 " ctrl P
 map <Leader>c :CtrlP<CR>
@@ -227,7 +221,14 @@ let g:EclimCompletionMethod = 'omnifunc'
 
 " ctags
 map <Leader>z :CtrlPTag<CR>
+nmap <C-t> :TagbarToggle<CR>
 
 " move
 let g:move_key_modifier = 'C'
+
+" fugitive
+
+map <Leader>.s :Gstatus<CR>
+map <Leader>.b :Gblame<CR>
+map <Leader>.w :Gbrowse<CR>
 "---------------------- End -----------------------------
