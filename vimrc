@@ -222,6 +222,7 @@ let g:EclimCompletionMethod = 'omnifunc'
 " ctags
 map <Leader>z :CtrlPTag<CR>
 nmap <C-t> :TagbarToggle<CR>
+map <Leader>.t :ta /^
 
 " move
 let g:move_key_modifier = 'C'
