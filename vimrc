@@ -195,7 +195,25 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.log,*/vendor/*,*/public/*,*/coverage/*,*tag
 
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""
+    \ --ignore-dir "bin"
+    \ --ignore-dir "coverage"
+    \ --ignore-dir "data"
+    \ --ignore-dir "design"
+    \ --ignore-dir "doc"
+    \ --ignore-dir "lib"
+    \ --ignore-dir "log"
+    \ --ignore-dir "public"
+    \ --ignore-dir "spec_old"
+    \ --ignore-dir "studios"
+    \ --ignore-dir "template"
+    \ --ignore-dir "tmp"
+    \ --ignore-dir "vendor"
+    \ --ignore-dir "vendor"
+    \ --ignore-dir "verificator"
+    \ --ignore "*.log"
+    \ --ignore "*tags"'
+    \ --ignore "db/schema*"
   let g:ctrlp_use_caching = 0
 endif
 
@@ -205,16 +223,24 @@ map <Leader>h :AV<CR>
 " AG
 map <Leader>g :Ag<SPACE>
 let g:ag_prg='ag -S --nocolor --nogroup --column
-\ --ignore "./data/**"
-\ --ignore "./vendor/**"
-\ --ignore "./tmp/**"
-\ --ignore "./coverage/**"
-\ --ignore "./lib/**"
-\ --ignore "*.log"
-\ --ignore "./spec_old/**"
-\ --ignore "./db/schema.rb"
-\ --ignore "./doc/**"
-\ --ignore "*tags"'
+  \ --ignore-dir "bin"
+  \ --ignore-dir "coverage"
+  \ --ignore-dir "data"
+  \ --ignore-dir "design"
+  \ --ignore-dir "doc"
+  \ --ignore-dir "lib"
+  \ --ignore-dir "log"
+  \ --ignore-dir "public"
+  \ --ignore-dir "spec_old"
+  \ --ignore-dir "studios"
+  \ --ignore-dir "template"
+  \ --ignore-dir "tmp"
+  \ --ignore-dir "vendor"
+  \ --ignore-dir "vendor"
+  \ --ignore-dir "verificator"
+  \ --ignore "*.log"
+  \ --ignore "*tags"'
+  \ --ignore "db/schema*"
 
 " youcompleteme
 let g:EclimCompletionMethod = 'omnifunc'
