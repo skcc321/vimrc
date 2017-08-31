@@ -17,6 +17,7 @@ set cursorline                      " highlight the cursor screen line "
 set cursorcolumn                      " highlight the cursor screen line "
 set scrolloff=5                     " minimal number of screen lines to keep above and below the cursor "
 set spell spelllang=en_us           " spellchecker
+set lazyredraw                      " lazyredraw
 
 " Auto indentation
 set expandtab
@@ -257,4 +258,6 @@ let g:move_key_modifier = 'C'
 map <Leader>.s :Gstatus<CR>
 map <Leader>.b :Gblame<CR>
 map <Leader>.w :Gbrowse<CR>
+map <Leader>.d :Gdiff<CR>
+set diffopt+=vertical
 "---------------------- End -----------------------------
