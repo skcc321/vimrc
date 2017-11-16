@@ -43,7 +43,7 @@ let mapleader=","
 
 "---------------- Plugins -------------------
 call plug#begin('~/.vim/plugged')
-  Plug 'L9'
+  Plug 'vim-scripts/L9'
   Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
   Plug 'gmarik/Vundle.vim'
 
@@ -93,7 +93,7 @@ call plug#begin('~/.vim/plugged')
   " Languages
   Plug 'slim-template/vim-slim'
   Plug 'kchmck/vim-coffee-script'
-  Plug 'nginx.vim'
+  Plug 'chr4/nginx.vim'
   Plug 'zaiste/tmux.vim'
   Plug 'elzr/vim-json'
   Plug 'TAKAyukiatkwsk/vim-mongoid-syntax'
@@ -260,4 +260,7 @@ map <Leader>.b :Gblame<CR>
 map <Leader>.w :Gbrowse<CR>
 map <Leader>.d :Gdiff<CR>
 set diffopt+=vertical
+
+" format json
+nmap =j :%!python -m json.tool<CR>
 "---------------------- End -----------------------------
