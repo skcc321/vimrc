@@ -240,13 +240,13 @@ if executable('ag')
 endif
 
 " rails
-map <Leader>h :AV<CR>
+map <Leader>.h :AV<CR>
 
 " youcompleteme
 let g:EclimCompletionMethod = 'omnifunc'
 
 " ctags
-map <Leader>z :CtrlPTag<CR>
+map <Leader>.z :CtrlPTag<CR>
 nmap <C-t> :TagbarToggle<CR>
 map <Leader>.t :ta /^
 
