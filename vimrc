@@ -24,6 +24,8 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 
+let g:ruby_indent_access_modifier_style="indent"
+
 " String to put at the start of lines that have been wrapped "
 let &showbreak='↪ '
 
