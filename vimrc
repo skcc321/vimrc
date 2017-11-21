@@ -215,32 +215,32 @@ if executable('ag')
     \ --ignore "*.log"
     \ --ignore "*tags"
     \ --ignore "db/schema*"'
+
+  " AG
+  map <Leader>g :Ag<SPACE>
+  let g:ag_prg='ag -S --nocolor --nogroup --column
+    \ --ignore-dir "bin"
+    \ --ignore-dir "coverage"
+    \ --ignore-dir "data"
+    \ --ignore-dir "design"
+    \ --ignore-dir "doc"
+    \ --ignore-dir "lib"
+    \ --ignore-dir "log"
+    \ --ignore-dir "public"
+    \ --ignore-dir "spec_old"
+    \ --ignore-dir "studios"
+    \ --ignore-dir "template"
+    \ --ignore-dir "tmp"
+    \ --ignore-dir "vendor"
+    \ --ignore-dir "vendor"
+    \ --ignore-dir "verificator"
+    \ --ignore "*.log"
+    \ --ignore "*tags"
+    \ --ignore "db/schema*"'
 endif
 
 " rails
 map <Leader>h :AV<CR>
-
-" AG
-map <Leader>g :Ag<SPACE>
-let g:ag_prg='ag -S --nocolor --nogroup --column
-  \ --ignore-dir "bin"
-  \ --ignore-dir "coverage"
-  \ --ignore-dir "data"
-  \ --ignore-dir "design"
-  \ --ignore-dir "doc"
-  \ --ignore-dir "lib"
-  \ --ignore-dir "log"
-  \ --ignore-dir "public"
-  \ --ignore-dir "spec_old"
-  \ --ignore-dir "studios"
-  \ --ignore-dir "template"
-  \ --ignore-dir "tmp"
-  \ --ignore-dir "vendor"
-  \ --ignore-dir "vendor"
-  \ --ignore-dir "verificator"
-  \ --ignore "*.log"
-  \ --ignore "*tags"
-  \ --ignore "db/schema*"'
 
 " youcompleteme
 let g:EclimCompletionMethod = 'omnifunc'
@@ -254,7 +254,6 @@ map <Leader>.t :ta /^
 let g:move_key_modifier = 'C'
 
 " fugitive
-
 map <Leader>.s :Gstatus<CR>
 map <Leader>.b :Gblame<CR>
 map <Leader>.w :Gbrowse<CR>
