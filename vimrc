@@ -59,7 +59,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'matze/vim-move'
 
   " Correction
-  Plug 'scrooloose/syntastic'
+  Plug 'w0rp/ale'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
   Plug 'junegunn/vim-easy-align'
   Plug 'ntpeters/vim-better-whitespace'
@@ -83,6 +83,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'tomtom/tcomment_vim'
+  Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
   " Ruby/Rails
   Plug 'tpope/vim-endwise'
@@ -137,48 +138,6 @@ let g:rehash256 = 1
 colo molokai
 hi Normal ctermfg=252 ctermbg=none
 hi Comment cterm=italic
-
-" syntastic
-nnoremap <Leader>e :SyntasticCheck<CR>
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_mode_map = { 'mode': 'passive' }
-
-let g:syntastic_enable_signs=1
-let g:syntastic_error_symbol='☠'
-let g:syntastic_warning_symbol='☣'
-let g:syntastic_style_error_symbol='྾'
-let g:syntastic_style_warning_symbol='♿'
-
-let g:syntastic_enable_ruby_checker = 1
-let g:syntastic_enable_coffee_checker = 1
-let g:syntastic_enable_css_checker = 1
-let g:syntastic_enable_haml_checker = 1
-let g:syntastic_enable_javascript_checker = 1
-let g:syntastic_enable_markdown_checker = 1
-let g:syntastic_enable_sass_checker = 1
-let g:syntastic_enable_scss_checker = 1
-let g:syntastic_enable_sh_checker = 1
-let g:syntastic_enable_slim_checker = 1
-let g:syntastic_enable_yaml_checker = 1
-let g:syntastic_coffee_checkers = ['coffee', 'coffeelint']
-let g:syntastic_css_checkers = ['csslint', 'phpcs', 'prettycss', 'recess', 'stylelint']
-let g:syntastic_haml_checkers = ['haml', 'haml_lint']
-let g:syntastic_html_checkers = ['jshint', 'tidy', 'validator', 'w3*']
-let g:syntastic_javascript_checkers = ['closurecompiler', 'gjslint', 'standard']
-let g:syntastic_ruby_checkers = ['mri', 'reek', 'rubocop', 'flog']
-let g:syntastic_sass_checkers = ['sass', 'sassc']
-let g:syntastic_scss_checkers = ['sass', 'sassc', 'scss_lint']
-let g:syntastic_sh_checkers = ['bashate', 'checkbashisms', 'sh', 'shellcheck']
-let g:syntastic_slim_checkers = ['slimrb']
-let g:syntastic_spec_checkers = ['rpmlint']
-let g:syntastic_yaml_checkers = ['jsyaml', 'yamlxs']
 
 " camel case
 map <silent> w <Plug>CamelCaseMotion_w
@@ -264,4 +223,23 @@ set diffopt+=vertical
 
 " format json
 nmap =j :%!python -m json.tool<CR>
+
+" lint
+" -let g:syntastic_enable_signs=1
+" -let g:syntastic_error_symbol='☠'
+" -let g:syntastic_warning_symbol='☣'
+" -let g:syntastic_style_error_symbol='྾'
+" -let g:syntastic_style_warning_symbol='♿'
+
+let g:ale_linters = {
+\   'ruby': ['ruby', 'reek', 'rubycop', 'brakeman', 'rails_best_practices'],
+\}
+
+let g:ale_completion_enabled = 1
+let g:airline#extensions#ale#enabled = 1
+let g:ale_echo_msg_error_str = '☠ '
+let g:ale_echo_msg_warning_str = '♿'
+let g:ale_sign_error = '☠ '
+let g:ale_sign_warning = '♿'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 "---------------------- End -----------------------------
