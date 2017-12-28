@@ -74,6 +74,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'gorodinskiy/vim-coloresque'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
+  Plug 'skywind3000/asyncrun.vim'
 
   " Objects
   Plug 'kana/vim-textobj-user'
@@ -150,6 +151,8 @@ sunmap e
 " rspec
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
+
+let g:rspec_command = "AsyncRun tmux set-option remain-on-exit on; tmux split-window \"clear; rspec {spec}\""
 
 " ctrl P
 map <Leader>c :CtrlP<CR>
@@ -235,11 +238,13 @@ let g:ale_linters = {
 \   'ruby': ['ruby', 'reek', 'rubycop', 'brakeman', 'rails_best_practices'],
 \}
 
-let g:ale_completion_enabled = 1
 let g:airline#extensions#ale#enabled = 1
+
+let g:ale_completion_enabled = 1
+let g:ale_sign_column_always = 1
 let g:ale_echo_msg_error_str = '☠ '
 let g:ale_echo_msg_warning_str = '♿'
 let g:ale_sign_error = '☠ '
 let g:ale_sign_warning = '♿'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_echo_msg_format = '[%linter%] %s'
 "---------------------- End -----------------------------
