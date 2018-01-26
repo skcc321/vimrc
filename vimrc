@@ -2,6 +2,7 @@
 " autosave view
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
 endif
 
 au BufWritePre * :%s/\s\+$//e       " trailing whitespaces
@@ -64,6 +65,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/vim-easy-align'
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'Raimondi/delimitMate'
+  Plug 'reedes/vim-wordy'
 
   " Appearance
   Plug 'tomasr/molokai'
@@ -84,7 +86,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'tomtom/tcomment_vim'
-  Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
   " Ruby/Rails
   Plug 'tpope/vim-endwise'
@@ -152,11 +153,10 @@ sunmap e
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 
-let g:rspec_command = "AsyncRun tmux set-option remain-on-exit on; tmux split-window \"clear; rspec {spec}\""
-
 " ctrl P
 map <Leader>c :CtrlP<CR>
 
+" ag
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
   let g:ctrlp_use_caching = 0
@@ -166,7 +166,6 @@ if executable('ag')
     \ --ignore-dir "data"
     \ --ignore-dir "design"
     \ --ignore-dir "doc"
-    \ --ignore-dir "lib"
     \ --ignore-dir "log"
     \ --ignore-dir "public"
     \ --ignore-dir "spec_old"
@@ -188,7 +187,6 @@ if executable('ag')
     \ --ignore-dir "data"
     \ --ignore-dir "design"
     \ --ignore-dir "doc"
-    \ --ignore-dir "lib"
     \ --ignore-dir "log"
     \ --ignore-dir "public"
     \ --ignore-dir "spec_old"
@@ -227,13 +225,7 @@ set diffopt+=vertical
 " format json
 nmap =j :%!python -m json.tool<CR>
 
-" lint
-" -let g:syntastic_enable_signs=1
-" -let g:syntastic_error_symbol='☠'
-" -let g:syntastic_warning_symbol='☣'
-" -let g:syntastic_style_error_symbol='྾'
-" -let g:syntastic_style_warning_symbol='♿'
-
+" ale
 let g:ale_linters = {
 \   'ruby': ['ruby', 'reek', 'rubycop', 'brakeman', 'rails_best_practices'],
 \}
@@ -248,3 +240,27 @@ let g:ale_sign_error = '☠ '
 let g:ale_sign_warning = '♿'
 let g:ale_echo_msg_format = '[%linter%] %s'
 "---------------------- End -----------------------------
+
+highlight clear SpellBad
+highlight SpellBad cterm=bold,italic ctermfg=014 ctermbg=000
+
+" I got up at 8 AM
+" wordy
+let g:wordy#ring = [
+  \ 'weak',
+  \ ['being', 'passive-voice', ],
+  \ 'business-jargon',
+  \ 'weasel',
+  \ 'puffery',
+  \ ['problematic', 'redundant', ],
+  \ ['colloquial', 'idiomatic', 'similies', ],
+  \ 'art-jargon',
+  \ ['contractions', 'opinion', 'vague-time', 'said-synonyms', ],
+  \ 'adjectives',
+  \ 'adverbs',
+  \ ]
+
+
+" autocorrect
+ia shipmnet shipment
+ia Shipmnet Shipment
