@@ -2,7 +2,7 @@
 " autosave view
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
+  au BufRead,BufNewFile *.erb set filetype=eruby.html
 endif
 
 au BufWritePre * :%s/\s\+$//e       " trailing whitespaces
@@ -86,13 +86,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'tomtom/tcomment_vim'
+  Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
+  Plug 'mattn/emmet-vim'
+  Plug 'mattn/webapi-vim'
+  Plug 'mattn/gist-vim'
 
   " Ruby/Rails
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-rails'
   Plug 'vim-ruby/vim-ruby'
   Plug 'AndrewRadev/switch.vim'
-  Plug 'thoughtbot/vim-rspec'
+  Plug 'janko-m/vim-test'
+  Plug 'benmills/vimux'
   Plug 'danchoi/ruby_bashrockets.vim'
 
   " Languages
@@ -150,8 +155,14 @@ sunmap b
 sunmap e
 
 " rspec
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
+let test#strategy = {
+  \ 'nearest': 'neovim',
+  \ 'file':    'vimux',
+  \ 'suite':   'vimux',
+\}
+
+map <Leader>t :TestFile<CR>
+map <Leader>s :TestNearest<CR>
 
 " ctrl P
 map <Leader>c :CtrlP<CR>
@@ -264,3 +275,13 @@ let g:wordy#ring = [
 " autocorrect
 ia shipmnet shipment
 ia Shipmnet Shipment
+
+" function! ToggleSyntax()
+" syntax on
+" endfunction
+" imap . <c-o>:call ToggleSyntax()<cr>
+
+"gist
+" let g:gist_use_password_in_gitconfig = 1
+
+
