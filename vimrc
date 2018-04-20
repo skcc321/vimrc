@@ -156,7 +156,7 @@ sunmap e
 
 " rspec
 let test#strategy = {
-  \ 'nearest': 'neovim',
+  \ 'nearest': 'vimux',
   \ 'file':    'vimux',
   \ 'suite':   'vimux',
 \}
@@ -167,11 +167,10 @@ map <Leader>s :TestNearest<CR>
 " ctrl P
 map <Leader>c :CtrlP<CR>
 
+
 " ag
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_use_caching = 0
-  let g:ctrlp_user_command = 'ag %s -l --nocolor --nogroup --column -g ""
+  let ignore_options = '
     \ --ignore-dir "bin"
     \ --ignore-dir "coverage"
     \ --ignore-dir "data"
@@ -184,32 +183,33 @@ if executable('ag')
     \ --ignore-dir "template"
     \ --ignore-dir "tmp"
     \ --ignore-dir "vendor"
-    \ --ignore-dir "vendor"
+    \ --ignore-dir "middleware"
     \ --ignore-dir "verificator"
+    \ --ignore-dir "node_modules"
     \ --ignore "*.log"
     \ --ignore "*tags"
-    \ --ignore "db/schema*"'
+    \ --ignore "Gemfile.lock"
+    \ --ignore "Guarfile"
+    \ --ignore "Procfile"
+    \ --ignore "REVISION"
+    \ --ignore "Yarn.lock"
+    \ --ignore "config.ru"
+    \ --ignore "db/schema*"
+    \ --ignore "options.reek"
+    \ --ignore "overhaul-backend.sql"
+    \ --ignore "overhaul-backend.sql.zip"
+    \ --ignore "rspec_results.html"'
+
+
+  " CtrlP
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_use_caching = 0
+  let g:ctrlp_working_path_mode = 1
+  let g:ctrlp_user_command = 'ag %s -l --nocolor --nogroup --column -g "" ' . ignore_options
 
   " AG
   map <Leader>g :Ag<SPACE>
-  let g:ag_prg='ag -S --nocolor --nogroup --column
-    \ --ignore-dir "bin"
-    \ --ignore-dir "coverage"
-    \ --ignore-dir "data"
-    \ --ignore-dir "design"
-    \ --ignore-dir "doc"
-    \ --ignore-dir "log"
-    \ --ignore-dir "public"
-    \ --ignore-dir "spec_old"
-    \ --ignore-dir "studios"
-    \ --ignore-dir "template"
-    \ --ignore-dir "tmp"
-    \ --ignore-dir "vendor"
-    \ --ignore-dir "vendor"
-    \ --ignore-dir "verificator"
-    \ --ignore "*.log"
-    \ --ignore "*tags"
-    \ --ignore "db/schema*"'
+  let g:ag_prg='ag -S --nocolor --nogroup --column ' . ignore_options
 endif
 
 " rails
@@ -238,7 +238,7 @@ nmap =j :%!python -m json.tool<CR>
 
 " ale
 let g:ale_linters = {
-\   'ruby': ['ruby', 'reek', 'rubycop', 'brakeman', 'rails_best_practices'],
+\   'ruby': ['ruby', 'reek', 'rubycop', 'brakeman'],
 \}
 
 let g:airline#extensions#ale#enabled = 1
@@ -275,6 +275,8 @@ let g:wordy#ring = [
 " autocorrect
 ia shipmnet shipment
 ia Shipmnet Shipment
+
+ia recepients recipients
 
 " function! ToggleSyntax()
 " syntax on
