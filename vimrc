@@ -165,7 +165,10 @@ map <Leader>t :TestFile<CR>
 map <Leader>s :TestNearest<CR>
 
 " ctrl P
-map <Leader>c :CtrlP<CR>
+map <Leader>ca :CtrlP app/<CR>
+map <Leader>cc :CtrlP app/controllers/<CR>
+map <Leader>cm :CtrlP app/models/<CR>
+map <Leader>cf :CtrlP frontend/<CR>
 
 
 " ag
@@ -277,6 +280,8 @@ ia shipmnet shipment
 ia Shipmnet Shipment
 
 ia recepients recipients
+
+ia timestapm timestamp
 
 " function! ToggleSyntax()
 " syntax on
