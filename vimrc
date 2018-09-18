@@ -86,7 +86,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'tomtom/tcomment_vim'
-  Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
   Plug 'mattn/emmet-vim'
   Plug 'mattn/webapi-vim'
   Plug 'mattn/gist-vim'
@@ -108,6 +107,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'elzr/vim-json'
   Plug 'TAKAyukiatkwsk/vim-mongoid-syntax'
   Plug 'pangloss/vim-javascript'
+  Plug 'mxw/vim-jsx'
   Plug 'plasticboy/vim-markdown'
   Plug 'aliva/vim-fish'
 call plug#end()
@@ -165,10 +165,11 @@ map <Leader>t :TestFile<CR>
 map <Leader>s :TestNearest<CR>
 
 " ctrl P
-map <Leader>ca :CtrlP app/<CR>
-map <Leader>cc :CtrlP app/controllers/<CR>
-map <Leader>cm :CtrlP app/models/<CR>
-map <Leader>cf :CtrlP frontend/<CR>
+map <Leader>c :CtrlP app/<CR>
+map <Leader>na :CtrlP app/<CR>
+map <Leader>nc :CtrlP app/controllers/<CR>
+map <Leader>nm :CtrlP app/models/<CR>
+map <Leader>nf :CtrlP frontend/<CR>
 
 
 " ag
@@ -241,7 +242,8 @@ nmap =j :%!python -m json.tool<CR>
 
 " ale
 let g:ale_linters = {
-\   'ruby': ['ruby', 'reek', 'rubycop', 'brakeman'],
+\   'ruby': ['ruby', 'brakeman', 'reek', 'fasterer', 'rails_best_practices', 'rubycop'],
+\   'javascript': ['eslint'],
 \}
 
 let g:airline#extensions#ale#enabled = 1
@@ -283,12 +285,6 @@ ia recepients recipients
 
 ia timestapm timestamp
 
-" function! ToggleSyntax()
-" syntax on
-" endfunction
-" imap . <c-o>:call ToggleSyntax()<cr>
-
-"gist
-" let g:gist_use_password_in_gitconfig = 1
-
+" jsx
+let g:jsx_pragma_required = 1
 
