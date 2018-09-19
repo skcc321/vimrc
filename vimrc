@@ -165,11 +165,12 @@ map <Leader>t :TestFile<CR>
 map <Leader>s :TestNearest<CR>
 
 " ctrl P
-map <Leader>c :CtrlP app/<CR>
+map <Leader>c :CtrlP<CR>
 map <Leader>na :CtrlP app/<CR>
 map <Leader>nc :CtrlP app/controllers/<CR>
 map <Leader>nm :CtrlP app/models/<CR>
 map <Leader>nf :CtrlP frontend/<CR>
+map <Leader>ns :CtrlP spec/<CR>
 
 
 " ag
@@ -284,7 +285,5 @@ ia Shipmnet Shipment
 ia recepients recipients
 
 ia timestapm timestamp
-
 " jsx
 let g:jsx_pragma_required = 1
-
