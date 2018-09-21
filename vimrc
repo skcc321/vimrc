@@ -281,9 +281,12 @@ let g:wordy#ring = [
 " autocorrect
 ia shipmnet shipment
 ia Shipmnet Shipment
-
 ia recepients recipients
-
 ia timestapm timestamp
+
+inoremap _ <C-]>_
+inoremap . <C-]>.
+inoremap - <C-]>-
+
 " jsx
 let g:jsx_pragma_required = 1
