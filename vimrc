@@ -51,7 +51,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'gmarik/Vundle.vim'
 
   " Navigation
-  Plug 'bkad/CamelCaseMotion'
+  Plug 'chaoren/vim-wordmotion'
   Plug 'Lokaltog/vim-easymotion'
   Plug 'scrooloose/nerdtree'
   Plug 'ctrlpvim/ctrlp.vim'
@@ -145,14 +145,6 @@ let g:rehash256 = 1
 colo molokai
 hi Normal ctermfg=252 ctermbg=none
 hi Comment cterm=italic
-
-" camel case
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-sunmap w
-sunmap b
-sunmap e
 
 " rspec
 let test#strategy = {
@@ -290,3 +282,17 @@ inoremap - <C-]>-
 
 " jsx
 let g:jsx_pragma_required = 1
+
+
+" wordmotion
+" let g:wordmotion_spaces = '_-.'
+" let g:wordmotion_mappings = {
+" \ 'w' : '<M-w>',
+" \ 'b' : '<M-b>',
+" \ 'e' : '<M-e>',
+" \ 'ge' : 'g<M-e>',
+" \ 'aw' : 'a<M-w>',
+" \ 'iw' : 'i<M-w>',
+" \ '<C-R><C-W>' : '<C-R><M-w>'
+" \ }
+
