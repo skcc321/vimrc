@@ -156,6 +156,7 @@ let test#strategy = {
 map <Leader>t :TestFile<CR>
 map <Leader>s :TestNearest<CR>
 
+
 " ctrl P
 map <Leader>c :CtrlP<CR>
 map <Leader>na :CtrlP app/<CR>
@@ -175,7 +176,9 @@ if executable('ag')
     \ --ignore-dir "doc"
     \ --ignore-dir "log"
     \ --ignore-dir "public"
+    \ --ignore-dir "frontend"
     \ --ignore-dir "spec_old"
+    \ --ignore-dir "spec"
     \ --ignore-dir "studios"
     \ --ignore-dir "template"
     \ --ignore-dir "tmp"
@@ -183,6 +186,7 @@ if executable('ag')
     \ --ignore-dir "middleware"
     \ --ignore-dir "verificator"
     \ --ignore-dir "node_modules"
+    \ --ignore-dir "engines"
     \ --ignore "*.log"
     \ --ignore "*tags"
     \ --ignore "Gemfile.lock"
@@ -282,3 +286,10 @@ inoremap - <C-]>-
 
 " jsx
 let g:jsx_pragma_required = 1
+
+
+" vim rails
+
+map <Leader>ra :A<CR>
+
+
