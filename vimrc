@@ -4,6 +4,10 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
   au BufRead,BufNewFile *.erb set filetype=eruby.html
 endif
+" set t_ZH=^[[3m
+" set t_ZR=^[[23m
+
+set t_ut=                " fix 256 colors in tmux http://sunaku.github.io/vim-256color-bce.html
 
 au BufWritePre * :%s/\s\+$//e       " trailing whitespaces
 
@@ -20,6 +24,18 @@ set scrolloff=5                     " minimal number of screen lines to keep abo
 set spell spelllang=en_us           " spellchecker
 set lazyredraw                      " lazyredraw
 
+" define a path to store persistent undo files.
+let target_path = expand('~/.vim/persisted-undo/')
+" create the directory and any parent directories
+" if the location does not exist.
+if !isdirectory(target_path)
+  call system('mkdir -p ' . target_path)
+endif
+" point Vim to the defined undo directory.
+let &undodir = target_path
+" finally, enable undo persistence.
+set undofile
+
 " Auto indentation
 set expandtab
 set shiftwidth=2
@@ -30,16 +46,16 @@ let g:ruby_indent_access_modifier_style="indent"
 " String to put at the start of lines that have been wrapped "
 let &showbreak='↪ '
 
-" remap colon
-map ; :
 
 " jump to end of text you pasted
 vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 nnoremap <silent> p p`]
 
-" remap esc
-imap jj <Esc>
+" " remap esc
+" imap jj <Esc>
+" remap colon
+map ; :
 
 " leader
 let mapleader=","
@@ -77,6 +93,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
   Plug 'skywind3000/asyncrun.vim'
+  Plug 'konfekt/fastfold'
 
   " Objects
   Plug 'kana/vim-textobj-user'
@@ -110,8 +127,15 @@ call plug#begin('~/.vim/plugged')
   Plug 'mxw/vim-jsx'
   Plug 'plasticboy/vim-markdown'
   Plug 'aliva/vim-fish'
+
+  " Live editor
+  Plug 'metakirby5/codi.vim'
 call plug#end()
 "-------------- Plugins Settings--------------
+
+" codi
+" since it is fullscreen, I'd like a 50/50 split
+let g:codi#width = winwidth(winnr()) / 2
 
 " easy align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -134,6 +158,16 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
+
+" fastfold
+nmap zuz <Plug>(FastFoldUpdate)
+let g:fastfold_savehook = 1
+let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
+let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
+
+let g:ruby_fold = 1
+set foldlevelstart=3
+" set nofoldenable
 
 " nerd tree
 map <C-n> :NERDTreeToggle<CR>
@@ -172,15 +206,8 @@ if executable('ag')
     \ --ignore-dir "bin"
     \ --ignore-dir "coverage"
     \ --ignore-dir "data"
-    \ --ignore-dir "design"
     \ --ignore-dir "doc"
     \ --ignore-dir "log"
-    \ --ignore-dir "public"
-    \ --ignore-dir "frontend"
-    \ --ignore-dir "spec_old"
-    \ --ignore-dir "spec"
-    \ --ignore-dir "studios"
-    \ --ignore-dir "template"
     \ --ignore-dir "tmp"
     \ --ignore-dir "vendor"
     \ --ignore-dir "middleware"
@@ -239,7 +266,7 @@ nmap =j :%!python -m json.tool<CR>
 
 " ale
 let g:ale_linters = {
-\   'ruby': ['ruby', 'brakeman', 'reek', 'fasterer', 'rails_best_practices', 'rubycop'],
+\   'ruby': ['ruby', 'reek', 'fasterer', 'rubycop'],
 \   'javascript': ['eslint'],
 \}
 
