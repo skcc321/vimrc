@@ -42,6 +42,7 @@ set shiftwidth=2
 set softtabstop=2
 
 let g:ruby_indent_access_modifier_style="indent"
+let g:ruby_indent_assignment_style="variable"
 
 " String to put at the start of lines that have been wrapped "
 let &showbreak='↪ '
@@ -77,7 +78,11 @@ call plug#begin('~/.vim/plugged')
 
   " Correction
   Plug 'w0rp/ale'
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+  Plug 'codota/tabnine-vim'
+  Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh',
+      \ }
   Plug 'junegunn/vim-easy-align'
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'Raimondi/delimitMate'
@@ -98,6 +103,7 @@ call plug#begin('~/.vim/plugged')
   " Objects
   Plug 'kana/vim-textobj-user'
   Plug 'glts/vim-textobj-comment'
+  Plug 'noprompt/vim-yardoc'
 
   " General editing
   Plug 'tpope/vim-surround'
@@ -115,6 +121,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'janko-m/vim-test'
   Plug 'benmills/vimux'
   Plug 'danchoi/ruby_bashrockets.vim'
+
+  " go
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
   " Languages
   Plug 'slim-template/vim-slim'
@@ -165,9 +174,20 @@ let g:fastfold_savehook = 1
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
 let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+    \ }
+
+nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
+
 let g:ruby_fold = 1
-set foldlevelstart=3
-" set nofoldenable
+" set foldlevelstart=3
+set nofoldenable
 
 " nerd tree
 map <C-n> :NERDTreeToggle<CR>
@@ -243,9 +263,6 @@ endif
 " rails
 map <Leader>.h :AV<CR>
 
-" youcompleteme
-let g:EclimCompletionMethod = 'omnifunc'
-
 " ctags
 map <Leader>.z :CtrlPTag<CR>
 nmap <C-t> :TagbarToggle<CR>
@@ -319,4 +336,40 @@ let g:jsx_pragma_required = 1
 
 map <Leader>ra :A<CR>
 
+let g:rails_projections = {
+      \  "app/notification_management/models/*.rb": {
+      \      "test": [
+      \        "spec/models/{}_spec.rb"
+      \      ]
+      \   },
+      \  "app/controllers/*_controller.rb": {
+      \      "test": [
+      \        "spec/requests/{}_request_spec.rb",
+      \        "spec/controllers/{}_controller_spec.rb",
+      \        "test/controllers/{}_controller_test.rb"
+      \      ],
+      \      "alternate": [
+      \        "spec/requests/{}_request_spec.rb",
+      \        "spec/controllers/{}_controller_spec.rb",
+      \        "test/controllers/{}_controller_test.rb"
+      \      ],
+      \   },
+      \   "spec/requests/*_request_spec.rb": {
+      \      "command": "request",
+      \      "alternate": "app/controllers/{}_controller.rb",
+      \      "template": "require 'rails_helper'\n\n" .
+      \        "RSpec.describe '{}' do\nend",
+      \   },
+      \ }
 
+" fugitive
+nnoremap <leader>pd :Gdiffsplit!<CR>
+nnoremap <leader>ps :Gstatus<CR>
+nnoremap <leader>ph :diffget //2<CR>
+nnoremap <leader>pl :diffget //3<CR>
+nnoremap <Leader>pb :Gblame<CR>
+nnoremap <Leader>pw :Gbrowse<CR>
+set diffopt+=vertical
+
+" motion
+nnoremap <C-d> db
