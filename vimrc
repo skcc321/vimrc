@@ -78,11 +78,23 @@ call plug#begin('~/.vim/plugged')
 
   " Correction
   Plug 'w0rp/ale'
-  Plug 'codota/tabnine-vim'
   Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
       \ 'do': 'bash install.sh',
       \ }
+  " Plug 'junegunn/fzf'
+  if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+  endif
+  if has('win32') || has('win64')
+    Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
+  else
+    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+  endif
   Plug 'junegunn/vim-easy-align'
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'Raimondi/delimitMate'
@@ -174,16 +186,32 @@ let g:fastfold_savehook = 1
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
 let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 
+" deoplate
+let g:deoplete#enable_at_startup = 1
+
+call deoplete#custom#var('tabnine', {
+\ 'line_limit': 500,
+\ 'max_num_results': 20,
+\ 'rank': 1000,
+\ })
+
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
 let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ 'python': ['/usr/local/bin/pyls'],
     \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
     \ }
 
-nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
+" note that if you are using Plug mapping you should not use `noremap` mappings.
+nmap <F5> <Plug>(lcn-menu)
+" Or map each action separately
+nmap <silent> gh <Plug>(lcn-hover)
+nmap <silent> gd <Plug>(lcn-definition)
+nmap <silent> gr <Plug>(lcn-rename)
 
 let g:ruby_fold = 1
 " set foldlevelstart=3
@@ -282,14 +310,14 @@ set diffopt+=vertical
 nmap =j :%!python -m json.tool<CR>
 
 " ale
-let g:ale_linters = {
+let b:ale_linters = {
 \   'ruby': ['ruby', 'reek', 'fasterer', 'rubycop'],
 \   'javascript': ['eslint'],
 \}
 
 let g:airline#extensions#ale#enabled = 1
 
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 let g:ale_sign_column_always = 1
 let g:ale_echo_msg_error_str = '☠ '
 let g:ale_echo_msg_warning_str = '♿'
