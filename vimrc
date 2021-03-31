@@ -64,8 +64,6 @@ let mapleader=","
 "---------------- Plugins -------------------
 call plug#begin('~/.vim/plugged')
   Plug 'vim-scripts/L9'
-  Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
-  Plug 'gmarik/Vundle.vim'
 
   " Navigation
   Plug 'chaoren/vim-wordmotion'
@@ -82,7 +80,6 @@ call plug#begin('~/.vim/plugged')
       \ 'branch': 'next',
       \ 'do': 'bash install.sh',
       \ }
-  " Plug 'junegunn/fzf'
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   else
@@ -95,9 +92,8 @@ call plug#begin('~/.vim/plugged')
   else
     Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
   endif
-  Plug 'junegunn/vim-easy-align'
+
   Plug 'ntpeters/vim-better-whitespace'
-  Plug 'Raimondi/delimitMate'
   Plug 'reedes/vim-wordy'
 
   " Appearance
@@ -154,6 +150,18 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 "-------------- Plugins Settings--------------
 
+let g:deoplete#enable_at_startup = 1
+" Use ALE and also some plugin 'foobar' as completion sources for all code.
+call deoplete#custom#option('sources', {
+\ '_': ['tabnine'],
+\})
+
+" call deoplete#custom#source('ale', 'rank', 150)
+" call deoplete#custom#source('tabnine', 'rank', 99999999)
+"
+" call deoplete#custom#option('profile', v:true)
+" call deoplete#enable_logging('DEBUG', 'deoplete.log')
+
 " codi
 " since it is fullscreen, I'd like a 50/50 split
 let g:codi#width = winwidth(winnr()) / 2
@@ -186,24 +194,11 @@ let g:fastfold_savehook = 1
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
 let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 
-" deoplate
-let g:deoplete#enable_at_startup = 1
-
-call deoplete#custom#var('tabnine', {
-\ 'line_limit': 500,
-\ 'max_num_results': 20,
-\ 'rank': 1000,
-\ })
-
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio']
     \ }
 
 " note that if you are using Plug mapping you should not use `noremap` mappings.
@@ -253,6 +248,7 @@ if executable('ag')
   let ignore_options = '
     \ --ignore-dir "bin"
     \ --ignore-dir "coverage"
+    \ --ignore-dir "rspec"
     \ --ignore-dir "data"
     \ --ignore-dir "doc"
     \ --ignore-dir "log"
@@ -262,7 +258,6 @@ if executable('ag')
     \ --ignore-dir "verificator"
     \ --ignore-dir "node_modules"
     \ --ignore-dir "engines"
-    \ --ignore "*.log"
     \ --ignore "*tags"
     \ --ignore "Gemfile.lock"
     \ --ignore "Guarfile"
@@ -270,7 +265,6 @@ if executable('ag')
     \ --ignore "REVISION"
     \ --ignore "Yarn.lock"
     \ --ignore "config.ru"
-    \ --ignore "db/schema*"
     \ --ignore "options.reek"
     \ --ignore "overhaul-backend.sql"
     \ --ignore "overhaul-backend.sql.zip"
@@ -317,7 +311,6 @@ let b:ale_linters = {
 
 let g:airline#extensions#ale#enabled = 1
 
-let g:ale_completion_enabled = 0
 let g:ale_sign_column_always = 1
 let g:ale_echo_msg_error_str = '☠ '
 let g:ale_echo_msg_warning_str = '♿'
