@@ -4,8 +4,6 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
   au BufRead,BufNewFile *.erb set filetype=eruby.html
 endif
-" set t_ZH=^[[3m
-" set t_ZR=^[[23m
 
 set t_ut=                " fix 256 colors in tmux http://sunaku.github.io/vim-256color-bce.html
 
@@ -19,8 +17,8 @@ set rnu
 set fillchars=vert:\                " disable vert div chars
 set nocompatible                    " be iMproved, required
 set cursorline                      " highlight the cursor screen line "
-set cursorcolumn                      " highlight the cursor screen line "
-set scrolloff=5                     " minimal number of screen lines to keep above and below the cursor "
+set cursorcolumn                    " highlight the cursor screen line "
+set scrolloff=10                    " minimal number of screen lines to keep above and below the cursor "
 set spell spelllang=en_us           " spellchecker
 set lazyredraw                      " lazyredraw
 
@@ -74,12 +72,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'majutsushi/tagbar'
   Plug 'matze/vim-move'
 
+  " config
+  Plug 'editorconfig/editorconfig-vim'
+
   " Correction
   Plug 'w0rp/ale'
+  Plug 'ntpeters/vim-better-whitespace'
+  Plug 'reedes/vim-wordy'
   Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': 'bash install.sh',
-      \ }
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
+  Plug 'junegunn/fzf'
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   else
@@ -92,9 +96,7 @@ call plug#begin('~/.vim/plugged')
   else
     Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
   endif
-
-  Plug 'ntpeters/vim-better-whitespace'
-  Plug 'reedes/vim-wordy'
+  Plug 'jphustman/sqlutilities'
 
   " Appearance
   Plug 'tomasr/molokai'
@@ -106,7 +108,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
   Plug 'skywind3000/asyncrun.vim'
-  Plug 'konfekt/fastfold'
 
   " Objects
   Plug 'kana/vim-textobj-user'
@@ -129,9 +130,13 @@ call plug#begin('~/.vim/plugged')
   Plug 'janko-m/vim-test'
   Plug 'benmills/vimux'
   Plug 'danchoi/ruby_bashrockets.vim'
+  Plug 'noprompt/vim-yardoc'
 
   " go
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+  " helm
+  Plug 'towolf/vim-helm'
 
   " Languages
   Plug 'slim-template/vim-slim'
@@ -143,28 +148,21 @@ call plug#begin('~/.vim/plugged')
   Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
   Plug 'plasticboy/vim-markdown'
-  Plug 'aliva/vim-fish'
-
-  " Live editor
-  Plug 'metakirby5/codi.vim'
 call plug#end()
 "-------------- Plugins Settings--------------
 
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+    \ }
+
+" Deoplate
 let g:deoplete#enable_at_startup = 1
-" Use ALE and also some plugin 'foobar' as completion sources for all code.
 call deoplete#custom#option('sources', {
-\ '_': ['tabnine'],
+\ '_': ['tabnine', 'buffer'],
 \})
-
-" call deoplete#custom#source('ale', 'rank', 150)
-" call deoplete#custom#source('tabnine', 'rank', 99999999)
-"
-" call deoplete#custom#option('profile', v:true)
-" call deoplete#enable_logging('DEBUG', 'deoplete.log')
-
-" codi
-" since it is fullscreen, I'd like a 50/50 split
-let g:codi#width = winwidth(winnr()) / 2
 
 " easy align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -187,30 +185,6 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
-
-" fastfold
-nmap zuz <Plug>(FastFoldUpdate)
-let g:fastfold_savehook = 1
-let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
-let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
-
-" Required for operations modifying multiple buffers like rename.
-set hidden
-
-let g:LanguageClient_serverCommands = {
-    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio']
-    \ }
-
-" note that if you are using Plug mapping you should not use `noremap` mappings.
-nmap <F5> <Plug>(lcn-menu)
-" Or map each action separately
-nmap <silent> gh <Plug>(lcn-hover)
-nmap <silent> gd <Plug>(lcn-definition)
-nmap <silent> gr <Plug>(lcn-rename)
-
-let g:ruby_fold = 1
-" set foldlevelstart=3
-set nofoldenable
 
 " nerd tree
 map <C-n> :NERDTreeToggle<CR>
@@ -304,19 +278,26 @@ set diffopt+=vertical
 nmap =j :%!python -m json.tool<CR>
 
 " ale
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1
 let b:ale_linters = {
-\   'ruby': ['ruby', 'reek', 'fasterer', 'rubycop'],
-\   'javascript': ['eslint'],
+\   'ruby': ['ruby', 'rubycop', 'reek']
 \}
 
 let g:airline#extensions#ale#enabled = 1
 
+let g:ale_lint_on_text_changed = 1
+let g:ale_completion_enabled = 0
 let g:ale_sign_column_always = 1
 let g:ale_echo_msg_error_str = '☠ '
 let g:ale_echo_msg_warning_str = '♿'
 let g:ale_sign_error = '☠ '
 let g:ale_sign_warning = '♿'
 let g:ale_echo_msg_format = '[%linter%] %s'
+
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
 "---------------------- End -----------------------------
 
 highlight clear SpellBad
