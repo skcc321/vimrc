@@ -9,8 +9,9 @@ set t_ut=                " fix 256 colors in tmux http://sunaku.github.io/vim-25
 
 au BufWritePre * :%s/\s\+$//e       " trailing whitespaces
 
+set encoding=UTF-8
 set shell=/bin/bash
-set clipboard=unnamed,unnamedplus   " use system clipboard
+set clipboard=unnamed               " use system clipboard
 set tags+=gems.tags                 " ctags
 set nu                              " enable left numbers
 set rnu
@@ -35,9 +36,9 @@ let &undodir = target_path
 set undofile
 
 " Auto indentation
-set expandtab
-set shiftwidth=2
-set softtabstop=2
+" set expandtab
+" set shiftwidth=2
+" set softtabstop=2
 
 let g:ruby_indent_access_modifier_style="indent"
 let g:ruby_indent_assignment_style="variable"
@@ -51,8 +52,6 @@ vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 nnoremap <silent> p p`]
 
-" " remap esc
-" imap jj <Esc>
 " remap colon
 map ; :
 
@@ -67,8 +66,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'chaoren/vim-wordmotion'
   Plug 'Lokaltog/vim-easymotion'
   Plug 'scrooloose/nerdtree'
-  Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'rking/ag.vim'
   Plug 'majutsushi/tagbar'
   Plug 'matze/vim-move'
 
@@ -79,26 +76,14 @@ call plug#begin('~/.vim/plugged')
   Plug 'w0rp/ale'
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'reedes/vim-wordy'
-  Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
-  Plug 'junegunn/fzf'
-  if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-  endif
-  if has('win32') || has('win64')
-    Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
-  else
-    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-  endif
+  Plug 'github/copilot.vim', { 'branch': 'release' }
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'burntsushi/ripgrep'
   Plug 'jphustman/sqlutilities'
 
   " Appearance
+  Plug 'ryanoasis/vim-devicons'
   Plug 'tomasr/molokai'
   Plug 'airblade/vim-gitgutter'
   Plug 'kshenoy/vim-signature'
@@ -110,35 +95,23 @@ call plug#begin('~/.vim/plugged')
   Plug 'skywind3000/asyncrun.vim'
 
   " Objects
-  Plug 'kana/vim-textobj-user'
-  Plug 'glts/vim-textobj-comment'
-  Plug 'noprompt/vim-yardoc'
 
   " General editing
+  Plug 'sbdchd/neoformat'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'tomtom/tcomment_vim'
-  Plug 'mattn/emmet-vim'
-  Plug 'mattn/webapi-vim'
-  Plug 'mattn/gist-vim'
 
   " Ruby/Rails
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-rails'
-  Plug 'vim-ruby/vim-ruby'
   Plug 'AndrewRadev/switch.vim'
   Plug 'janko-m/vim-test'
   Plug 'benmills/vimux'
-  Plug 'danchoi/ruby_bashrockets.vim'
-  Plug 'noprompt/vim-yardoc'
-
-  " go
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-  " helm
-  Plug 'towolf/vim-helm'
 
   " Languages
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'noprompt/vim-yardoc'
   Plug 'slim-template/vim-slim'
   Plug 'kchmck/vim-coffee-script'
   Plug 'chr4/nginx.vim'
@@ -148,25 +121,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
   Plug 'plasticboy/vim-markdown'
+  Plug 'towolf/vim-helm'
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+  Plug 'bfrg/vim-cpp-modern'
 call plug#end()
 "-------------- Plugins Settings--------------
 
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
-let g:LanguageClient_serverCommands = {
-    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
-    \ }
-
-" Deoplate
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('sources', {
-\ '_': ['tabnine', 'buffer'],
-\})
-
-" easy align
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
+" copilot
+imap <silent><script><expr> <C-T> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
 
 " easymotion
 let g:EasyMotion_smartcase = 1
@@ -180,11 +146,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme='dark'
 set laststatus=2
-
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
 
 " nerd tree
 map <C-n> :NERDTreeToggle<CR>
@@ -207,62 +168,16 @@ let test#strategy = {
 map <Leader>t :TestFile<CR>
 map <Leader>s :TestNearest<CR>
 
-
-" ctrl P
-map <Leader>c :CtrlP<CR>
-map <Leader>na :CtrlP app/<CR>
-map <Leader>nc :CtrlP app/controllers/<CR>
-map <Leader>nm :CtrlP app/models/<CR>
-map <Leader>nf :CtrlP frontend/<CR>
-map <Leader>ns :CtrlP spec/<CR>
-
-
-" ag
-if executable('ag')
-  let ignore_options = '
-    \ --ignore-dir "bin"
-    \ --ignore-dir "coverage"
-    \ --ignore-dir "rspec"
-    \ --ignore-dir "data"
-    \ --ignore-dir "doc"
-    \ --ignore-dir "log"
-    \ --ignore-dir "tmp"
-    \ --ignore-dir "vendor"
-    \ --ignore-dir "middleware"
-    \ --ignore-dir "verificator"
-    \ --ignore-dir "node_modules"
-    \ --ignore-dir "engines"
-    \ --ignore "*tags"
-    \ --ignore "Gemfile.lock"
-    \ --ignore "Guarfile"
-    \ --ignore "Procfile"
-    \ --ignore "REVISION"
-    \ --ignore "Yarn.lock"
-    \ --ignore "config.ru"
-    \ --ignore "options.reek"
-    \ --ignore "overhaul-backend.sql"
-    \ --ignore "overhaul-backend.sql.zip"
-    \ --ignore "rspec_results.html"'
-
-
-  " CtrlP
-  set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_use_caching = 0
-  let g:ctrlp_working_path_mode = 1
-  let g:ctrlp_user_command = 'ag %s -l --nocolor --nogroup --column -g "" ' . ignore_options
-
-  " AG
-  map <Leader>g :Ag<SPACE>
-  let g:ag_prg='ag -S --nocolor --nogroup --column ' . ignore_options
-endif
-
 " rails
 map <Leader>.h :AV<CR>
 
+" fzf
+map <Leader>g :Rg<Cr>
+map <Leader>c :Files<Cr>
+
 " ctags
-map <Leader>.z :CtrlPTag<CR>
 nmap <C-t> :TagbarToggle<CR>
-map <Leader>.t :ta /^
+" map <Leader>.t :ta /^
 
 " move
 let g:move_key_modifier = 'C'
@@ -273,9 +188,6 @@ map <Leader>.b :Gblame<CR>
 map <Leader>.w :Gbrowse<CR>
 map <Leader>.d :Gdiff<CR>
 set diffopt+=vertical
-
-" format json
-nmap =j :%!python -m json.tool<CR>
 
 " ale
 " Only run linters named in ale_linters settings.
@@ -294,10 +206,6 @@ let g:ale_echo_msg_warning_str = '♿'
 let g:ale_sign_error = '☠ '
 let g:ale_sign_warning = '♿'
 let g:ale_echo_msg_format = '[%linter%] %s'
-
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
 "---------------------- End -----------------------------
 
 highlight clear SpellBad
@@ -333,7 +241,6 @@ inoremap - <C-]>-
 " jsx
 let g:jsx_pragma_required = 1
 
-
 " vim rails
 
 map <Leader>ra :A<CR>
@@ -366,11 +273,12 @@ let g:rails_projections = {
 
 " fugitive
 nnoremap <leader>pd :Gdiffsplit!<CR>
-nnoremap <leader>ps :Gstatus<CR>
+nnoremap <leader>ps :Git<CR>
 nnoremap <leader>ph :diffget //2<CR>
 nnoremap <leader>pl :diffget //3<CR>
-nnoremap <Leader>pb :Gblame<CR>
-nnoremap <Leader>pw :Gbrowse<CR>
+nnoremap <Leader>pb :Git blame<CR>
+nnoremap <Leader>pw :GBrowse<CR>
+xnoremap <Leader>pw :GBrowse<CR>
 set diffopt+=vertical
 
 " motion
